@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eux
 #
 # Compiling Pacman on OS X 10.10 Yosemite
 #
@@ -8,7 +9,7 @@
 # install.sh
 #
 
-PACMANPREFIX=/usr/local
+PACMANPREFIX=$HOME/.pacman
 
 function in_parallel()
 {
@@ -40,9 +41,9 @@ function main()
 		"curl -O http://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz"
 		"curl -O http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
 		"curl -O https://pkg-config.freedesktop.org/releases/pkg-config-0.28.tar.gz"
-		"curl -O http://ftp.gnu.org/gnu/libtool/libtool-2.4.2.tar.gz"
+		"curl -O http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz"
 		"curl -O http://ftp.gnu.org/gnu/bash/bash-4.3.tar.gz"
-		"curl -LO https://github.com/libarchive/libarchive/archive/v2.8.3.tar.gz"
+		"curl -LO https://github.com/libarchive/libarchive/archive/v3.3.2.tar.gz"
 		"curl -LO http://downloads.sourceforge.net/project/asciidoc/asciidoc/8.6.9/asciidoc-8.6.9.tar.gz"
 		"git clone git://projects.archlinux.org/pacman.git"
 		"curl -LO https://github.com/duskwuff/darwin-fakeroot/archive/v1.1.tar.gz"
@@ -54,11 +55,12 @@ function main()
 		"tar -xzvf automake-1.14.1.tar.gz -C $tmpdir"
 		"tar -xzvf autoconf-2.69.tar.gz -C $tmpdir"
 		"tar -xzvf pkg-config-0.28.tar.gz -C $tmpdir"
-		"tar -xzvf libtool-2.4.2.tar.gz -C $tmpdir"
+		"tar -xzvf libtool-2.4.6.tar.gz -C $tmpdir"
 		"tar -xzvf bash-4.3.tar.gz -C $tmpdir"
-		"tar -xzvf v2.8.3.tar.gz -C $tmpdir"
+		"tar -xzvf v3.3.2.tar.gz -C $tmpdir"
 		"tar -xzvf asciidoc-8.6.9.tar.gz -C $tmpdir"
 		"tar -xzvf v1.1.tar.gz -C $tmpdir"
+		"cp -vrpf pacman $tmpdir/pacman"
 	)
 
 
@@ -95,7 +97,7 @@ function main()
 	make install
 	popd
 
-	pushd $tmpdir/libtool-2.4.2 || exit
+	pushd $tmpdir/libtool-2.4.6 || exit
 	./configure --prefix=$tmpdir
 	make
 	make install
@@ -107,7 +109,7 @@ function main()
 	make install
 	popd
 
-	pushd $tmpdir/libarchive-2.8.3 || exit
+	pushd $tmpdir/libarchive-3.3.2 || exit
 	./build/autogen.sh
 	./configure --prefix=$tmpdir
 	make
